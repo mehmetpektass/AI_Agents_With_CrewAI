@@ -1,0 +1,40 @@
+research_task:
+  description: >
+    Conduct a thorough research about {topic}
+    Make sure you find any interesting and relevant information given
+    the current year is {current_year}.
+  expected_output: >
+    A list with 10 bullet points of the most relevant information about {topic}
+  agent: researcher
+
+reporting_task:
+  description: >
+    Review the research findings and create a comprehensive, detailed report using proper markdown formatting.
+    Each bullet point from the research should be expanded into its own section with:
+    
+    - Use # for main headings
+    - Use ## for subheadings
+    - Use **bold** for important terms
+    - Use bullet points (*) for listing items
+    - Use > for important quotes or highlights
+    - Use --- for section separators
+    - Include a table of contents at the start
+    
+    Each section should include:
+    - Detailed explanation
+    - Supporting information
+    - Implications and importance
+    - Real-world applications
+    
+    The final report should be at least 1000 words and cover all research points thoroughly.
+    Format everything in clean, properly structured markdown.
+  expected_output: >
+    A detailed markdown report with:
+    1. Table of Contents
+    2. Multiple well-formatted sections using proper markdown syntax
+    3. Clear heading hierarchy (# and ##)
+    4. Proper use of markdown elements (**bold**, *italics*, lists, quotes)
+    4. Each section comprehensive with detailed analysis
+    Minimum length: 1000 words.
+  agent: reporting_analyst
+
