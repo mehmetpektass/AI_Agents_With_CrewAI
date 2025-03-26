@@ -4,7 +4,7 @@ import warnings
 
 from datetime import datetime
 
-from ai_development.crew import AiDevelopment
+from crew import AiDevelopment
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
