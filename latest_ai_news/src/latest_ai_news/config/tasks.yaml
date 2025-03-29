@@ -1,36 +1,30 @@
 retrieve_news_task:
   description: >
-    Conduct in-depth research on {topic}, identifying the most significant 
-    and up-to-date developments. Ensure all findings are relevant to the 
-    current year, 2024.
+    Conduct a thorough research about {topic}
+    Make sure you find any interesting and relevant information given
+    the current year is {current_year}.
   expected_output: >
-    A curated list of the 10 most reliable and relevant websites providing 
-    valuable insights on {topic}.
+    The list of 10 websites with the most relevant information about {topic}
   agent: retrieve_news
 
 website_scrape_task:
   description: >
-    Extract key news and insights from the identified websites, ensuring 
-    accuracy and completeness in the collected data.
+    Scrape the website for the latest news and information
   expected_output: >
-    Structured and comprehensive website data, containing all essential 
-    information relevant to {topic}.
+    Fully scraped websites with all the important information from the website.
   agent: website_scraper
 
 ai_news_write_task:
   description: >
-    Transform the gathered information into a well-structured, insightful, 
-    and engaging news article in markdown format.
+    Summarize the information from the websites into a fully fledge news article in markdown format.
   expected_output: >
-    A professionally written news article with clear sections, each covering 
-    a main topic in detail. The article should be formatted in markdown 
-    (excluding '```').
+    A fully fledge news article with the main topics, each with a full section of information.
+    Formatted as markdown without '```'
   agent: ai_news_writer
 
 file_write_task:
   description: >
-    Store the finalized news article in an organized manner for future access.
+    Write the news article to a file
   expected_output: >
-    A properly formatted news article, saved as news/{date}_news_article.md, 
-    containing all the refined information from previous tasks.
+    A fully fledge news article with all information from previous task into a file named news/{topic}_{date}_news_article.md
   agent: file_writer
