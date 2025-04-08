@@ -6,6 +6,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from pathlib import Path
 from pydub import AudioSegment
+from pydub.utils import make_chunks
 
 load_dotenv()
 
@@ -27,14 +28,25 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
         audio_path = str(SCRIPT_DIR/"EarningsCall.wav")
 
         audio = AudioSegment.from_file(audio_path, format="wav")
-        audio_file= open("/path/to/file/audio.mp3", "rb")
-        transcription = client.audio.transcriptions.create(
-            model="whisper-1", 
-            file=audio_file
-        )
 
-        print(transcription.text)
+        chunk_length = 60000
+        chunks = make_chunks(audio, chunk_length)
 
+        for i,chunk in enumerate(chunks):
+            print(f"Transcribing chunk {i +1}/{len(chunks)}")
+            chunk_path = f"chunk_{i +1}.wav"
+            chunk.export(chunk_path, format="wav")
+
+            full_transcription = ""
+            with open(chunk_path, "rb") as audio_file:
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file
+                )
+                full_transcription += transcription.text + " "
+
+        self.state.transcript = full_transcription
+        print(f"Transcription: {self.state.transcript}")
     
 def kickoff():
     poem_flow = MeetingAssistantFlow()
