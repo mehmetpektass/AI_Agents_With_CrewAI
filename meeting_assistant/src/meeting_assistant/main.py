@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from pydantic import BaseModel
-from crewai.flow import Flow, listen, start
-from meeting_assistant.crews.poem_crew.poem_crew import PoemCrew
+from crewai.flow import Flow, start
+from crews.poem_crew.poem_crew import PoemCrew
 from openai import OpenAI
 from dotenv import load_dotenv
 from pathlib import Path
@@ -32,12 +32,13 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
         chunk_length = 60000
         chunks = make_chunks(audio, chunk_length)
 
+        full_transcription = ""
         for i,chunk in enumerate(chunks):
             print(f"Transcribing chunk {i +1}/{len(chunks)}")
             chunk_path = f"chunk_{i +1}.wav"
             chunk.export(chunk_path, format="wav")
 
-            full_transcription = ""
+            
             with open(chunk_path, "rb") as audio_file:
                 transcription = client.audio.transcriptions.create(
                     model="whisper-1",
