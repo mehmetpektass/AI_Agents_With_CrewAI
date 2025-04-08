@@ -1,52 +1,44 @@
 #!/usr/bin/env python
-from random import randint
-
 from pydantic import BaseModel
-
 from crewai.flow import Flow, listen, start
-
 from meeting_assistant.crews.poem_crew.poem_crew import PoemCrew
+from openai import OpenAI
+from dotenv import load_dotenv
+from pathlib import Path
+from pydub import AudioSegment
+
+load_dotenv()
+
+client = OpenAI()
 
 
-class PoemState(BaseModel):
-    sentence_count: int = 1
-    poem: str = ""
+class MeetingAssistantState(BaseModel):
+    transcript: str = ""
+    meeting_minutes: str = ""
 
 
-class PoemFlow(Flow[PoemState]):
+class MeetingAssistantFlow(Flow[MeetingAssistantState]):
 
     @start()
-    def generate_sentence_count(self):
-        print("Generating sentence count")
-        self.state.sentence_count = randint(1, 5)
+    def transcribe_meeting (self):
+        print("Generating Transcription")
 
-    @listen(generate_sentence_count)
-    def generate_poem(self):
-        print("Generating poem")
-        result = (
-            PoemCrew()
-            .crew()
-            .kickoff(inputs={"sentence_count": self.state.sentence_count})
+        SCRIPT_DIR = Path(__file__).parent
+        audio_path = str(SCRIPT_DIR/"EarningsCall.wav")
+
+        audio = AudioSegment.from_file(audio_path, format="wav")
+        audio_file= open("/path/to/file/audio.mp3", "rb")
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1", 
+            file=audio_file
         )
 
-        print("Poem generated", result.raw)
-        self.state.poem = result.raw
+        print(transcription.text)
 
-    @listen(generate_poem)
-    def save_poem(self):
-        print("Saving poem")
-        with open("poem.txt", "w") as f:
-            f.write(self.state.poem)
-
-
+    
 def kickoff():
-    poem_flow = PoemFlow()
+    poem_flow = MeetingAssistantFlow()
     poem_flow.kickoff()
-
-
-def plot():
-    poem_flow = PoemFlow()
-    poem_flow.plot()
 
 
 if __name__ == "__main__":
