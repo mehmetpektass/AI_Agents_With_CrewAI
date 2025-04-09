@@ -4,13 +4,18 @@ from crewai.flow import Flow, start
 from crews.poem_crew.poem_crew import PoemCrew
 from openai import OpenAI
 from dotenv import load_dotenv
+import os
 from pathlib import Path
 from pydub import AudioSegment
 from pydub.utils import make_chunks
+import assemblyai as aai
 
 load_dotenv()
 
 client = OpenAI()
+
+aai.settings.api_key = os.environ.get("ASSEMBLYAI_API_KEY")
+transcriber = aai.Transcriber()
 
 
 class MeetingAssistantState(BaseModel):
@@ -25,9 +30,9 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
         print("Generating Transcription")
 
         SCRIPT_DIR = Path(__file__).parent
-        audio_path = str(SCRIPT_DIR/"EarningsCall.wav")
+        audio_file = str(SCRIPT_DIR/"Indian_podcast.wav")
 
-        audio = AudioSegment.from_file(audio_path, format="wav")
+        audio = AudioSegment.from_file(audio_file, format="wav")
 
         chunk_length = 60000
         chunks = make_chunks(audio, chunk_length)
@@ -39,11 +44,9 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
             chunk.export(chunk_path, format="wav")
 
             
-            with open(chunk_path, "rb") as audio_file:
-                transcription = client.audio.transcriptions.create(
-                    model="whisper-1",
-                    file=audio_file
-                )
+            with open(chunk_path, "rb") as audio:
+                transcription = transcriber.transcribe(audio)
+
                 full_transcription += transcription.text + " "
 
         self.state.transcript = full_transcription
