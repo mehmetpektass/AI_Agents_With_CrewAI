@@ -1,9 +1,10 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import FileWriterTool
 
-# If you want to run a snippet of code before or after the crew starts,
-# you can use the @before_kickoff and @after_kickoff decorators
-# https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
+file_writer_tool_summary = FileWriterTool(file_name="summary.txt", directory="meeting_assistant")
+file_writer_tool_action_items = FileWriterTool(file_name="action_items.txt", directory="meeting_assistant")
+file_writer_tool_sentiment = FileWriterTool(file_name="sentiment.txt", directory="meeting_assistant")
 
 
 @CrewBase
