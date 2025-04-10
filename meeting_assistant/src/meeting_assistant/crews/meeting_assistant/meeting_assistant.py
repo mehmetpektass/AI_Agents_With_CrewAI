@@ -7,7 +7,7 @@ from crewai.project import CrewBase, agent, crew, task
 
 
 @CrewBase
-class PoemCrew:
+class MeetingAssistantCrew:
     """Poem Crew"""
 
     # Learn more about YAML configuration files here:
@@ -19,18 +19,27 @@ class PoemCrew:
     # If you would lik to add tools to your crew, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def poem_writer(self) -> Agent:
+    def meeting_minutes_summarizer(self) -> Agent:
         return Agent(
-            config=self.agents_config["poem_writer"],
+            config=self.agents_config["meeting_minutes_summarizer"],
         )
 
-    # To learn more about structured task outputs,
-    # task dependencies, and task callbacks, check out the documentation:
-    # https://docs.crewai.com/concepts/tasks#overview-of-a-task
+    @agent
+    def meeting_minutes_writer(self) -> Agent:
+        return Agent(
+            config=self.agents_config["meeting_minutes_writer"]
+        )
+
     @task
-    def write_poem(self) -> Task:
+    def meeting_minutes_summary_task(self) -> Task:
         return Task(
-            config=self.tasks_config["write_poem"],
+            config=self.tasks_config["meeting_minutes_summary_task"],
+        )
+    
+    @task 
+    def meeting_minutes_writing_task(self) -> Task:
+        return Task(
+            config=self.tasks_config["meeting_minutes_writing_task"],
         )
 
     @crew

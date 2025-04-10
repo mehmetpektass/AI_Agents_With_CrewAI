@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from pydantic import BaseModel
 from crewai.flow import Flow, start
-from crews.poem_crew.poem_crew import PoemCrew
+from crews.poem_crew.poem_crew import MeetingAssistantCrew
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
