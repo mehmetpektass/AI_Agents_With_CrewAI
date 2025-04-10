@@ -1,7 +1,23 @@
-write_poem:
+meeting_minutes_summary_task:
   description: >
-    Write a poem about how CrewAI is awesome.
-    Ensure the poem is engaging and adheres to the specified sentence count of {sentence_count}.
+    Given the meeting transcript provided in {transcript}, perform the following:
+      - Summarize the meeting transcript and write the summary to "meeting_minutes/summary.txt".
+      - Extract key action items from the transcript, formatting them as a bullet list, and save to "meeting_minutes/action_items.txt".
+      - Analyze the overall sentiment (positive, negative, or neutral) of the transcript with brief explanations and write the analysis to "meeting_minutes/sentiment.txt".
   expected_output: >
-    A beautifully crafted poem about CrewAI, with exactly {sentence_count} sentences.
-  agent: poem_writer
+    A concise summary of the meeting, a bullet list of actionable items, and a brief sentiment analysis.
+  agent: meeting_minutes_summarizer
+
+meeting_minutes_writing_task:
+  description: >
+    Using the outputs from the summary task (summary, action items, and sentiment analysis), draft a comprehensive set of
+    meeting minutes. The final document should be structured in markdown and include:
+      - Today's date as the meeting date.
+      - The company name "TylerAI".
+      - "Tyler" as the meeting organizer.
+      - A list of attendees (feel free to create a plausible list if not provided in the transcript).
+      - The meeting location as "Zoom".
+  expected_output: >
+    A professionally formatted markdown document that consolidates all the meeting details,
+    including the summary, action items, and sentiment analysis.
+  agent: meeting_minutes_writer
