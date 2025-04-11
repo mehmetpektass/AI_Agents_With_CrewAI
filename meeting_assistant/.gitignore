@@ -3,3 +3,5 @@ __pycache__/
 lib/
 .DS_Store
 *wav
+src/meeting_assistant/crews/gmailcrew/tools/credentials.json
+src/meeting_assistant/crews/gmailcrew/tools/token.json
