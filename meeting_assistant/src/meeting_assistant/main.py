@@ -9,6 +9,7 @@ from pydub import AudioSegment
 from pydub.utils import make_chunks
 import assemblyai as aai
 from crews.meeting_assistant.meeting_assistant import MeetingAssistantCrew
+from crews.gmailcrew.gmailcrew import Gmailcrew
 
 load_dotenv()
 
