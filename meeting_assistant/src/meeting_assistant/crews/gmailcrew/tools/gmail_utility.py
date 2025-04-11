@@ -1,9 +1,12 @@
-import os
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from email.message import EmailMessage
 
+import os
+import base64
+import markdown
 SCOPES = ["https://www.googleapis.com/auth/gmail.compose"]
 
 HTML_TEMPLATE = """
@@ -54,4 +57,38 @@ def gmail_authentication():
 
     service = build("gmail", "v1", credentials=creds)
     return service
-     
+
+
+def create_message(sender, to, subject, message_text):
+    """Create a message for an email.
+    
+    Args:
+    sender: Email address of the sender.
+    to: Email address of the receiver.
+    subject: The subject of the email.
+    message_text: The text of the email.
+
+    Returns:
+        An object containing a base64url encoded email object.
+    """
+
+    md = markdown.Markdown(extensions=["tables", "fenced_code", "nl2br"])
+
+    formatted_html = HTML_TEMPLATE.format(
+        final_email_body = md.convert(message_text)
+    )
+
+    msg = EmailMessage()
+    content = formatted_html
+
+    msg['To'] = to
+    msg['From'] = sender
+    msg['Subject'] = subject
+    msg.add_header('Content-Type','text/html')
+    msg.set_payload(content)
+
+    encodeMsg = base64.urlsafe_b64encode(msg.as_bytes()).decode()
+
+    return {"raw": encodeMsg}
+
+    
