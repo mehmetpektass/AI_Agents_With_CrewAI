@@ -1,9 +1,9 @@
 meeting_minutes_summary_task:
   description: >
     Given the meeting transcript provided in {transcript}, perform the following:
-      - Summarize the meeting transcript and write the summary to "meeting_assistant/summary.txt".
-      - Extract key action items from the transcript, formatting them as a bullet list, and save to "meeting_assistant/action_items.txt".
-      - Analyze the overall sentiment (positive, negative, or neutral) of the transcript with brief explanations and write the analysis to "meeting_assistant/sentiment.txt".
+      - Summarize the meeting transcript and write the summary to "meeting_minutes/summary.txt".
+      - Extract key action items from the transcript, formatting them as a bullet list, and save to "meeting_minutes/action_items.txt".
+      - Analyze the overall sentiment (positive, negative, or neutral) of the transcript with brief explanations and write the analysis to "meeting_minutes/sentiment.txt".
   expected_output: >
     A concise summary of the meeting, a bullet list of actionable items, and a brief sentiment analysis.
   agent: meeting_minutes_summarizer

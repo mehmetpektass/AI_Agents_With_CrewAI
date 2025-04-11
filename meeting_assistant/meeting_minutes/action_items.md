@@ -1,0 +1,5 @@
+- Continue to boost the High Yield Savings product line and Robo Advisor platform.
+- Monitor investments in asset-backed securities, particularly collateralized debt obligations and residential mortgage-backed securities.
+- Focus on maintaining the positive trend in customer acquisition costs and lifetime value.
+- Prepare for the IPO of the subsidiary Pay Plus to enhance liquidity.
+- Explore further development in blockchain solutions and AI-driven predictive analytics for continued growth.

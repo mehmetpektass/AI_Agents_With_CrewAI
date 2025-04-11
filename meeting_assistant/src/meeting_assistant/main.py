@@ -30,7 +30,7 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
         print("Generating Transcription")
 
         SCRIPT_DIR = Path(__file__).parent
-        audio_file = Path(SCRIPT_DIR) / "Indian_podcast.wav"
+        audio_file = Path(SCRIPT_DIR) / "EarningsCall.wav"
         filename_without_ext = audio_file.stem
 
         audio = AudioSegment.from_file(audio_file, format="wav")

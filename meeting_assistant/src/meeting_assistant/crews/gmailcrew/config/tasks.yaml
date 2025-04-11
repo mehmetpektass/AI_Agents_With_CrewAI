@@ -1,0 +1,7 @@
+gmail_draft_task:
+  description: >
+    Generate a well-formatted email draft to be sent to the client. 
+    The email should include the meeting minutes using the provided content: {body}, and maintain a professional tone.
+  expected_output: >
+    A confirmation indicating whether the email draft was created and sent successfully.
+  agent: gmail_draft_agent
