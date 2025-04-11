@@ -91,4 +91,24 @@ def create_message(sender, to, subject, message_text):
 
     return {"raw": encodeMsg}
 
-    
+
+def create_draft(service, user_id, message_body):
+    """Create and insert a draft email.
+
+    Args:
+    service: Authorized Gmail API service instance.
+    user_id: User's email address. The special value "me"
+             can be used to indicate the authenticated user.
+    message_body: The body of the draft email.
+
+    Returns:
+        The created draft.
+    """
+
+    try:
+        draft = service.users().drafts().create(userId = user_id, body = {"message": message_body}).execute()
+        print(f'Draft id: {draft["id"]}\nDraft message: {draft["message"]}')
+        return draft
+    except Exception as error:
+        print(f'An error occurred: {error}')
+        return None
