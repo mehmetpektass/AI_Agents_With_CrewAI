@@ -10,15 +10,15 @@ import os
 class GmailToolInput(BaseModel):
     """Input schema for MyCustomTool."""
 
-    argument: str = Field(..., description="Description of the argument.")
+    body: str = Field(..., description="The body of the email to sent.")
 
 
 class GmailTool(BaseTool):
-    name: str = "Name of my tool"
+    name: str = "GmailTool"
     description: str = (
         "Clear description for what this tool is useful for, your agent will need this information to use it."
     )
-    args_schema: Type[BaseModel] = MyCustomToolInput
+    args_schema: Type[BaseModel] = GmailToolInput
 
     def _run(self, body: str) -> str:
         try:

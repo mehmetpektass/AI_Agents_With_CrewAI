@@ -67,7 +67,8 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
         meeting_minutes = crew.crew().kickoff(inputs)
         self.state.meeting_minutes = meeting_minutes
 
-
+   
+   
     
 def kickoff():
     poem_flow = MeetingAssistantFlow()
