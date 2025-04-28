@@ -1,14 +1,14 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
-from tools.gmail_tool import GmailTool
+from .tools.gmail_tool import GmailTool
 
 # If you want to run a snippet of code before or after the crew starts,
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
 
 @CrewBase
-class Gmailcrew():
+class GmailCrew():
     """Gmailcrew crew"""
 
     # Learn more about YAML configuration files here:
@@ -32,6 +32,7 @@ class Gmailcrew():
     def gmail_draft_task(self) -> Task:
         return Task(
             config=self.tasks_config['gmail_draft_task'],
+            tools=[GmailTool()],
         )
 
 

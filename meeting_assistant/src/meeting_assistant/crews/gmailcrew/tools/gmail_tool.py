@@ -3,7 +3,7 @@ from typing import Type
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
 
-from gmail_utility import gmail_authentication, create_message, create_draft
+from .gmail_utility import gmail_authentication, create_message, create_draft
 
 import os
 
@@ -16,17 +16,21 @@ class GmailToolInput(BaseModel):
 class GmailTool(BaseTool):
     name: str = "GmailTool"
     description: str = (
-        "Clear description for what this tool is useful for, your agent will need this information to use it."
+        "Tool for sending emails through Gmail."
     )
     args_schema: Type[BaseModel] = GmailToolInput
 
-    def _run(self, body: str) -> str:
+    def _run(self, body: str | dict) -> str:
+
+        if isinstance(body, dict):
+            body = body.get('description', body.get('content', str(body)))
+
         try:
             service = gmail_authentication()
             sender = os.getenv("GMAIL_SENDER")
             to = os.getenv("GMAIL_RECIPIENT")
             subject = "Meeting Minutes"
-            message_text = body
+            message_text = str(body)
 
             message = create_message(sender, to, subject, message_text)
             draft = create_draft(service, "me", message)

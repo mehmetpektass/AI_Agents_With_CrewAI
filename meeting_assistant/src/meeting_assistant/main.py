@@ -9,7 +9,7 @@ from pydub import AudioSegment
 from pydub.utils import make_chunks
 import assemblyai as aai
 from crews.meeting_assistant.meeting_assistant import MeetingAssistantCrew
-from crews.gmailcrew.gmailcrew import Gmailcrew
+from crews.gmailcrew.gmailcrew import GmailCrew
 
 load_dotenv()
 
@@ -64,15 +64,35 @@ class MeetingAssistantFlow(Flow[MeetingAssistantState]):
         inputs = {
             "transcript": self.state.transcript
         }
-        meeting_minutes = crew.crew().kickoff(inputs)
-        self.state.meeting_minutes = meeting_minutes
+        result = crew.crew().kickoff(inputs)
+        
+        if hasattr(result, 'raw_output'):
+            self.state.meeting_minutes = result.raw_output
+        elif hasattr(result, 'result'):
+            self.state.meeting_minutes = result.result
+        else:
+            self.state.meeting_minutes = str(result)
+
 
    
-   
+    @listen(generate_meeting_minutes)
+    def create_draft_meeting_minutes(self):
+        print("Creating Draft Meeting Minutes")
+
+        crew = GmailCrew().crew()
+
+        inputs = {
+            "body": self.state.meeting_minutes
+        }
+
+        draft_crew = crew.kickoff(inputs)
+        print(f"Draft Crew: {draft_crew}")
+
     
 def kickoff():
-    poem_flow = MeetingAssistantFlow()
-    poem_flow.kickoff()
+    meeting_assistant_flow = MeetingAssistantFlow()
+    meeting_assistant_flow.plot()
+    meeting_assistant_flow.kickoff()
 
 
 if __name__ == "__main__":
