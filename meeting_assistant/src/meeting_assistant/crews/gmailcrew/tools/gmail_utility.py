@@ -7,6 +7,7 @@ from email.message import EmailMessage
 import os
 import base64
 import markdown
+
 SCOPES = ["https://www.googleapis.com/auth/gmail.compose"]
 
 HTML_TEMPLATE = """
@@ -22,10 +23,11 @@ HTML_TEMPLATE = """
     </html>
 """
 
+
 def gmail_authentication():
     """Shows basic usage of the Gmail API.
-        Returns:
-        service: Authorized Gmail API service instance.
+    Returns:
+    service: Authorized Gmail API service instance.
     """
 
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -35,7 +37,7 @@ def gmail_authentication():
     creds = None
     if os.path.exists(token_path):
         creds = Credentials.from_authorized_user_file(token_path, SCOPES)
-    
+
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
@@ -46,10 +48,8 @@ def gmail_authentication():
                     "Please ensure you have downloaded your OAuth 2.0 credentials "
                     "from Google Cloud Console and placed them in the correct location."
                 )
-            
-            flow = InstalledAppFlow.from_client_secrets_file(
-                credential_path, SCOPES
-            )
+
+            flow = InstalledAppFlow.from_client_secrets_file(credential_path, SCOPES)
             creds = flow.run_local_server(port=0)
 
         with open(token_path, "w") as token:
@@ -61,7 +61,7 @@ def gmail_authentication():
 
 def create_message(sender, to, subject, message_text):
     """Create a message for an email.
-    
+
     Args:
     sender: Email address of the sender.
     to: Email address of the receiver.
@@ -74,17 +74,15 @@ def create_message(sender, to, subject, message_text):
 
     md = markdown.Markdown(extensions=["tables", "fenced_code", "nl2br"])
 
-    formatted_html = HTML_TEMPLATE.format(
-        final_email_body = md.convert(message_text)
-    )
+    formatted_html = HTML_TEMPLATE.format(final_email_body=md.convert(message_text))
 
     msg = EmailMessage()
     content = formatted_html
 
-    msg['To'] = to
-    msg['From'] = sender
-    msg['Subject'] = subject
-    msg.add_header('Content-Type','text/html')
+    msg["To"] = to
+    msg["From"] = sender
+    msg["Subject"] = subject
+    msg.add_header("Content-Type", "text/html")
     msg.set_payload(content)
 
     encodeMsg = base64.urlsafe_b64encode(msg.as_bytes()).decode()
@@ -101,14 +99,19 @@ def create_draft(service, user_id, message_body):
              can be used to indicate the authenticated user.
     message_body: The body of the draft email.
 
-    Returns:
+    R    eturns:
         The created draft.
     """
 
     try:
-        draft = service.users().drafts().create(userId = user_id, body = {"message": message_body}).execute()
+        draft = (
+            service.users()
+            .drafts()
+            .create(userId=user_id, body={"message": message_body})
+            .execute()
+        )
         print(f'Draft id: {draft["id"]}\nDraft message: {draft["message"]}')
         return draft
     except Exception as error:
-        print(f'An error occurred: {error}')
+        print(f"An error occurred: {error}")
         return None

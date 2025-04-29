@@ -1,11 +1,9 @@
 from typing import Type
-
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
-
 from .gmail_utility import gmail_authentication, create_message, create_draft
-
 import os
+
 
 class GmailToolInput(BaseModel):
     """Input schema for MyCustomTool."""
@@ -15,15 +13,13 @@ class GmailToolInput(BaseModel):
 
 class GmailTool(BaseTool):
     name: str = "GmailTool"
-    description: str = (
-        "Tool for sending emails through Gmail."
-    )
+    description: str = "Tool for sending emails through Gmail."
     args_schema: Type[BaseModel] = GmailToolInput
 
     def _run(self, body: str | dict) -> str:
 
         if isinstance(body, dict):
-            body = body.get('description', body.get('content', str(body)))
+            body = body.get("description", body.get("content", str(body)))
 
         try:
             service = gmail_authentication()
