@@ -9,54 +9,50 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-SCRIPT_DIR =Path(__file__).parent
-pdf_path = str(SCRIPT_DIR/"agentops.pdf")
+SCRIPT_DIR = Path(__file__).parent
+pdf_path = str(SCRIPT_DIR / "agentops.pdf")
 
 pdf_search_tool = PDFSearchTool(pdf=pdf_path)
 
+
 @CrewBase
-class PdfFileRag():
+class PdfFileRag:
     """PdfFileRag crew"""
 
-    agents: List[BaseAgent]
-    tasks: List[Task]
+    agents_config = "config/agents.yaml"
+    tasks_config = "config/tasks.yaml"
 
-   
+    @agent
     def pdf_file_rag_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['pdf_file_rag_agent'],
+            config=self.agents_config["pdf_file_rag_agent"],
             tools=[pdf_search_tool],
-            verbose=True
+            verbose=True,
         )
 
     @agent
     def pdf_file_summary_agent(self) -> Agent:
-        return Agent(
-            config=self.agents_config['pdf_file_summary_agent'], 
-            verbose=True
-        )
+        return Agent(config=self.agents_config["pdf_file_summary_agent"], verbose=True)
 
-    
     @task
     def pdf_file_rag_task(self) -> Task:
         return Task(
-            config=self.tasks_config['pdf_file_rag_task'], 
+            config=self.tasks_config["pdf_file_rag_task"],
         )
 
     @task
     def pdf_file_summary_task(self) -> Task:
         return Task(
-            config=self.tasks_config['pdf_file_summary_task'],
-            output_file='report.md'
+            config=self.tasks_config["pdf_file_summary_task"], output_file="report.md"
         )
 
     @crew
     def crew(self) -> Crew:
         """Creates the PdfFileRag crew"""
-       
+
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents,  # Automatically created by the @agent decorator
+            tasks=self.tasks,  # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
         )

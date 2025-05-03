@@ -5,6 +5,7 @@ import warnings
 
 from crew import PdfFileRag
 
+
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 # This main file is intended to be a way for you to run your
