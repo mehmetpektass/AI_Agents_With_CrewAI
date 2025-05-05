@@ -23,8 +23,7 @@ def run():
         "input": user_input
     }
 
-    result = PdfFileRag().crew().kickoff(inputs=inputs)
-    print(result)
+    
 
 if __name__ == "__main__":
     run()
