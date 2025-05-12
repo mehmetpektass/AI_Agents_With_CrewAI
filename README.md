@@ -25,7 +25,7 @@ This repository contains four AI agent projects leveraging CrewAI framework. The
 * **Four-Stage Processing:** Retrieval → Scraping → Writing → Saving workflow
 
 **Tech Stack**  
-`SerperDev` `ScrapeWebsiteTool` `FileWriterTool` `CrewAI` `Date Handling`
+`SerperDev` `OpenAI API` `ScrapeWebsiteTool` `FileWriterTool` `CrewAI` `Date Handling`
 
 <br>
 
@@ -36,7 +36,7 @@ This repository contains four AI agent projects leveraging CrewAI framework. The
 * **Multi-Output Generation:** Separate files for summary, actions, and sentiment
 
 **Tech Stack**  
-`AssemblyAI` `Gmail API` `Pydub` `Markdown Templating` `Flow State Management`
+`AssemblyAI` `Gmail API` `OpenAI API` `Pydub` `Markdown Templating` `Flow State Management`
 
 <br>
 
@@ -47,7 +47,7 @@ This repository contains four AI agent projects leveraging CrewAI framework. The
 * **Multi-Stage Analysis:** Extraction → Validation → Summarization pipeline
 
 **Tech Stack**  
-`PDFSearchTool` `RAG Architecture` `Markdown Generation` `Semantic Chunking`
+`OpenAI API` `PDFSearchTool` `RAG Architecture` `Markdown Generation` `Semantic Chunking`
 
 <br>
 
@@ -58,6 +58,7 @@ This repository contains four AI agent projects leveraging CrewAI framework. The
 * **SerperDev:** Google Search API
 * **PyPDF:** PDF content analysis
 * **Gmail API:** Email automation
+* **OpenAI API:** LLM API
 
 <br>
 
@@ -70,6 +71,7 @@ This repository contains four AI agent projects leveraging CrewAI framework. The
   - SerperDev
   - AssemblyAI
   - Gmail API
+  - OpenAI API
 
 ```
 git clone https://github.com/mehmetpektass/AI_Agents_With_CrewAI.git
